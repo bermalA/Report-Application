@@ -1,0 +1,51 @@
+﻿@model User
+@{
+    ViewData["Title"] = "Kaydet";
+}
+
+<div class="vh-100 d-flex justify-content-center align-items-center">
+    @using (Html.BeginForm("Index", "Signin", FormMethod.Post))
+    {
+        @Html.ValidationSummary(true," ", new {@class= "alert alert-danger", style="list-style-type:none;"})
+        <div class="card p-5 shadow-lg d-flex flex-column justify-content-center align-items-center gap-3">
+            <h1>Kullanıcı Kayıt</h1>
+            <div class="form-floating" style="width:85%;">
+                @Html.TextBoxFor(m => m.Email, new { id = "Email", @class = "form-control"})
+                @Html.LabelFor(m => m.Email, "Email Adresi" , new { @class = "form-label" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger alert " })
+            </div>
+
+            <div class="form-floating input-group" style="width:85%;">
+                @Html.TextBoxFor(m=>m.Password, new {id="passInput", @class="form-control",type="password"})
+                <button id="passwordToggler" type="button" class="btn btn-outline-primary input-group-append rounded-end">
+                    <i id="eyeIcon" class="fa-solid fa-eye"></i>
+                </button>
+                @Html.LabelFor(m=>m.Password, "Şifre", new {@class = "form-label"})
+            </div>
+            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger alert " })
+            <div class="form-check">
+                @Html.CheckBoxFor(m => m.ActiveUser, new { @class = "form-check-input", id = "exampleCheck1" })
+                <label class="form-check-label" for="exampleCheck1">Aktif kullanıcı</label>
+            </div>
+            <button type="submit" class="btn btn-primary pt-2 pb-2 p-5">Kaydet</button>
+        </div>
+    }
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#passwordToggler").click(function () {
+            const icon = document.getElementById("eyeIcon");
+            const passInput = document.getElementById("passInput");
+            if (icon.classList.contains("fa-eye")) {
+                icon.classList.remove("fa-eye")
+                icon.classList.add("fa-eye-slash")
+                passInput.type = "text";
+            } else {
+                icon.classList.remove("fa-eye-slash")
+                icon.classList.add("fa-eye")
+                passInput.type = "password";
+            }
+        });
+    });
+</script>

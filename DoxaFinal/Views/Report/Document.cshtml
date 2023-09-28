@@ -1,0 +1,20 @@
+﻿@model DoxaFinal.Models.Form.Document
+
+@using (Html.BeginForm("ReceiveData", "Report", FormMethod.Post, new { id = "targetDocument", enctype = "multipart/form-data" }))
+{
+    <div class=" container-fluid mt-3 mb-2 d-flex justify-content-start">
+        <div class="col-1"></div>
+        <div class="col-6">
+            <h4>Dökümanlar</h4>
+            <div class="col d-md-flex">
+                @Html.LabelFor(m => m.DocumentName, "Döküman İsmi*", new{ @class = "col-md-4"})
+                @Html.TextBoxFor(m => m.DocumentName, new {@class = "form-control"})
+            </div>
+            <div id="area" class="col-sm-6 col-md-4 mt-4 d-flex flex-column gap-3">
+                @Html.TextBoxFor(m => m.DocumentData, new { type = "file", id = "docData", multiple = "multiple" })
+            </div>
+            <button type="submit" class="d-none"></button>
+        </div>
+    </div>
+}
+

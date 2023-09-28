@@ -1,0 +1,29 @@
+﻿@model DoxaFinal.Models.Form.Receipt;
+
+@using (Html.BeginForm("ReceiptData", "Report", FormMethod.Post, new { id = "targetReceipt" }))
+{
+    <div class="container-fluid col-10">
+        <div class="col-7 d-flex flex-column gap-3">
+            <h1>İŞ EMRİ</h1>
+            <div class="form-row">
+                <div class="d-md-flex">
+                    @Html.LabelFor(m => m.ReceiptName, "İş Emri İsmi*", new { @class = "col-md-4" })
+                    @Html.TextBoxFor(m => m.ReceiptName, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="d-md-flex">
+                    @Html.LabelFor(m => m.ReceiptDate, "İş Emri Açılış Tarihi*", new { @class = "col-md-6" })
+                    @Html.TextBoxFor(m => m.ReceiptDate, new { @class = "form-control", type = "date" })
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="d-md-flex">
+                    @Html.LabelFor(m => m.ReceiptCode, "İş Emri Kodu*", new { @class = "col-md-6" })
+                    @Html.TextBoxFor(m => m.ReceiptCode, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="d-none"></button>
+    </div>
+}

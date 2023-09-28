@@ -1,0 +1,170 @@
+﻿@model DoxaFinal.Models.Form.Part
+
+
+@using (Html.BeginForm("ReceiveData","Report",FormMethod.Post, new { id = "targetPart" }))
+{
+<div class="container-fluid col-10 mt-3">
+    <div class="d-flex">
+    <table class="table table-bordered" id="partTable">
+            <thead>
+                <th scope="col">Parça Kodu*</th>
+                <th scope="col">Parça Adı*</th>
+                <th scope="col">Kalınlık</th>
+                <th scope="col">Renk</th>
+                <th scope="col">Üretim Miktarı</th>
+                <th scope="col">Açıklama</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Html.TextBoxFor(m=>m.PartCode, new{ @class="form-control border-0"})</td>
+                    <td>@Html.TextBoxFor(m=>m.PartName, new{ @class="form-control border-0"})</td>
+                    <td>@Html.TextBoxFor(m=>m.Thickness, new{ @class="form-control border-0"})</td>
+                    <td>@Html.TextBoxFor(m=>m.Color, new{ @class="form-control border-0"})</td>
+                    <td>@Html.TextBoxFor(m=>m.ProductAmount, new{ @class="form-control border-0"})</td>
+                    <td>@Html.TextBoxFor(m=>m.PartDescription, new{@class="form-control border-0"})</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-flex flex-column gap-1 mb-3 ms-4 align-self-end">
+            <button id="addPart" type="button" class="btn-xs btn-secondary rounded-circle border-0"><i class="fa-solid fa-plus fa-xs"></i></button>
+            <button id="deletePart" type="button" class="btn-xs btn-danger rounded-circle border-0"><i class="fa-solid fa-xmark fa-xs"></i></button>
+        </div>
+    </div>
+    <div class="row col">
+    <div class="col">
+        <table class="table table-bordered" id="measureTable">
+            <thead>
+                <tr>
+                <th scope="colgroup" colspan="3">Net Ölçü</th>
+                <th scope="colgroup" colspan="3">Kaba Ölçü</th>
+                </tr>
+                <tr>
+                <th scope="col">Adet</th>
+                <th scope="col">Boy</th>
+                <th scope="col">En</th> 
+                <th scope="col">Adet</th>
+                <th scope="col">Boy</th>
+                <th scope="col">En</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Html.TextBoxFor(m=>m.NetAmount, new{ @class="form-control border-0"})</td>
+                    <td>@Html.TextBoxFor(m=>m.NetHeight, new{ @class="form-control border-0"})</td>
+                    <td>@Html.TextBoxFor(m=>m.NetWidth, new{ @class="form-control border-0"})</td>
+                    <td>@Html.TextBoxFor(m=>m.RoughAmount, new{ @class="form-control border-0"})</td>
+                    <td>@Html.TextBoxFor(m=>m.RoughHeight, new{ @class="form-control border-0"})</td>
+                    <td>@Html.TextBoxFor(m=>m.RoughWidth, new{ @class="form-control border-0"})</td>
+                </tr>
+            </tbody>
+        </table>
+
+
+    <table class="table table-bordered" id="pvcTable" >
+        <thead>
+        <th scope="col">PVC mm</th>
+        <th scope="col">Boy</th>
+        <th scope="col">En</th>
+        <th scope="col">Soft/Düz</th>
+        <th scope="col">Boy</th>
+        <th scope="col">En</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td><select id="selector" name="PVCType" class="custom-select border-0">
+                    <option selected>Seçiniz</option>
+                    <option value="0.4">0.4 mm</option>
+                    <option value="1">1 mm</option>
+                    <option value="2">2 mm</option>
+                </select></td>
+                <td>@Html.TextBoxFor(m=>m.PVCHeight, new{ @class="form-control border-0"})</td>
+                <td>@Html.TextBoxFor(m=>m.PVCWidth, new{ @class="form-control border-0"})</td>
+                <td><select name="Options" class="custom-select border-0">
+                        <option selected>Seçiniz</option>
+                        <option value="Soft">Soft</option>
+                        <option value="Duz">Düz</option>
+                </select></td>
+                <td>@Html.TextBoxFor(m=>m.OptHeight, new{ @class="form-control border-0"})</td>
+                <td>@Html.TextBoxFor(m=>m.OptWidth, new{ @class="form-control border-0"})</td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+        <button type="submit" class="d-none"></button>  
+    </div>
+</div>
+
+<script>
+    var lastRowId = 1; // Initialize the ID for the last row
+    var lastRowIndex = 1; // Initialize the ID for the last row
+
+    $(document).ready(function () {
+        $("#addPart").click(function () {
+            $("#deletePart").prop("disabled", false);
+
+        
+            var newRow = $("<tr>");
+            var cols = "";
+            cols += '<td><input type="text" class="form-control border-0" name="PartCode" /></td>';
+            cols += '<td><input type="text" class="form-control border-0" name="PartName" /></td>';
+            cols += '<td><input type="text" class="form-control border-0" name="Thickness" /></td>';
+            cols += '<td><input type="text" class="form-control border-0" name="Color" /></td>';
+            cols += '<td><input type="text" class="form-control border-0" name="ProductAmount" /></td>';
+            cols += '<td><input type="text" class="form-control border-0" name="PartDescription" /></td>';
+            newRow.attr('data-rowid', lastRowId);
+            newRow.append(cols);
+            $("#partTable tbody").append(newRow);
+
+ 
+            var newRow2 = $("<tr>");
+            var cols2 = "";
+            cols2 += '<td><input type="text" class="form-control border-0" name="NetAmount" /></td>';
+            cols2 += '<td><input type="text" class="form-control border-0" name="NetHeight" /></td>';
+            cols2 += '<td><input type="text" class="form-control border-0" name="NetWidth" /></td>';
+            cols2 += '<td><input type="text" class="form-control border-0" name="RoughAmount" /></td>';
+            cols2 += '<td><input type="text" class="form-control border-0" name="RoughHeight" /></td>';
+            cols2 += '<td><input type="text" class="form-control border-0" name="RoughWidth" /></td>';
+            newRow2.attr('data-rowid', lastRowIndex);
+            newRow2.append(cols2);
+            $("#measureTable tbody").append(newRow2);
+
+            var newRow3 = $("<tr>");
+            var cols3 = "";
+            cols3 += '<td><select name="PVCType" class="custom-select border-0">';
+            cols3 += '<option selected>Seçiniz</option>';
+            cols3 += '<option value="0.4">0.4 mm</option>';
+            cols3 += '<option value="1">1 mm</option>';
+            cols3 += '<option value="2">2 mm</option>';
+            cols3 += '</select></td>';
+            cols3 += '<td><input type="text" class="form-control border-0" name="PVCHeight" /></td>';
+            cols3 += '<td><input type="text" class="form-control border-0" name="PVCWidth" /></td>';
+            cols3 += '<td><select name="Options" class="custom-select border-0">';
+            cols3 += '<option selected>Seçiniz</option>';
+            cols3 += '<option value="Soft">Soft</option>';
+            cols3 += '<option value="Duz">Düz</option>';
+            cols3 += '</select></td>';
+            cols3 += '<td><input type="text" class="form-control border-0" name="OptHeight" /></td>';
+            cols3 += '<td><input type="text" class="form-control border-0" name="OptWidth" /></td>';
+            newRow3.attr('data-rowid', lastRowIndex);
+            newRow3.append(cols3);
+            $("#pvcTable tbody").append(newRow3);
+
+            lastRowId++;
+            lastRowIndex++;
+        });
+
+        $(document).on("click", "#deletePart", function () {
+            var rowToDeleteId = lastRowId - 1;
+            $("tr[data-rowid='" + rowToDeleteId + "']").remove();
+            $("tr[data-rowid='" + (lastRowIndex - 1) + "']").remove();
+            lastRowId--;
+            lastRowIndex--;
+
+            if (lastRowId == 1) {
+                $("#deletePart").prop("disabled", true);
+            }
+        });
+    });
+
+</script>
+}

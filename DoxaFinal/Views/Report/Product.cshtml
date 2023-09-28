@@ -1,0 +1,17 @@
+﻿@model DoxaFinal.Models.Form.Product
+
+
+@using (Html.BeginForm("ReceiveData", "Report", FormMethod.Post, new{id="targetProduct"}))
+{
+    <div class="container-fluid col-10">
+        <div class="d-md-flex col-7 mt-3">
+            @Html.LabelFor(m => m.ProductName, "Ürün İsmi*", new { @class = "col-md-4" })
+            @Html.TextBoxFor(m => m.ProductName, new { @class = "form-control" })
+        </div>
+        <div class="d-md-flex col-7 mt-3">
+            @Html.LabelFor(m => m.ProductDescription, "Not", new { @class = "col-md-4" })
+            @Html.TextAreaFor(m => m.ProductDescription, new { @class = "form-control" })
+        </div>
+        <button type="submit" class="d-none"></button>
+    </div>
+}

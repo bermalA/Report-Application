@@ -1,0 +1,89 @@
+﻿@model DoxaFinal.Models.Form.Movement;
+
+@using (Html.BeginForm("ReceiveData", "Report", FormMethod.Post, new { id = "targetMovement" }))
+{
+    <div class="container-fluid col-10">
+        <h4 class="mt-3">Hareket</h4>
+        <div class="table-responsive d-flex flex-column">
+            <table class="table table-bordered mt-2">
+                <thead>
+                    <tr>
+                        <th scope="col">Paket No</th>
+                        <th scope="col">Paket Adedi</th>
+                    </tr>
+                </thead>
+                <tbody id="tableArea">
+                    <tr>
+                        <td>@Html.TextBoxFor(m=>m.PackageNo,new{id="paketNo",@class="form-control border-0"})</td>
+                        <td>@Html.TextBoxFor(m=>m.PackageAmount,new{@class="form-control border-0"})</td>
+                    </tr>
+
+                    <tr id="lastRow">
+                        <td>
+                            <button id="addMove" type="button" class="btn w-100 h-100"><i class="fa-solid fa-plus text-secondary"></i></button>
+                        </td>
+                        <td>
+                            <button id="deleteMove" type="button" class="btn w-100 h-100" disabled><i class="fa-solid fa-xmark text-secondary"></i></button>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <button type="submit" class="d-none"></button>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#addMove").click(function () {
+                const lastRow = document.getElementById("lastRow");
+                const area = document.getElementById("tableArea");
+
+                const tr = document.createElement("tr");
+                const td1 = document.createElement("td");
+                const td2 = document.createElement("td");
+
+                const textNo = document.createElement("input");
+                textNo.type = "text";
+                textNo.classList.add("PackageNo");
+                textNo.setAttribute("name", "PackageNo");
+                textNo.classList.add("form-control");
+                textNo.classList.add("border-0");
+                textNo.classList.add("dynamic-input");
+
+                const textAmount = document.createElement("input");
+                textAmount.type = "text";
+                textAmount.classList.add("PackageAmount");
+                textAmount.setAttribute("name", "PackageAmount");
+                textAmount.classList.add("form-control");
+                textAmount.classList.add("border-0")
+                textAmount.classList.add("dynamic-input")
+
+                td1.appendChild(textNo);
+                td2.appendChild(textAmount);
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+
+                document.getElementById("deleteMove").disabled = false;
+
+                area.insertBefore(tr, lastRow);
+            })
+            $("#deleteMove").click(function () {
+                const area = document.getElementById("tableArea");
+                const number = document.getElementsByClassName("PackageNo")
+                const amount = document.getElementsByClassName("PackageAmount");
+                const tr = document.getElementsByTagName("tr");
+
+                let index = number.length + 1;
+                area.removeChild(tr[index]);
+                index--;
+
+                if (index == 1) {
+                    const btnDlt = document.getElementById("deleteMove");
+                    btnDlt.disabled = true;
+                }
+            })
+        })
+    </script>
+
+}
